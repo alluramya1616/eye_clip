@@ -1,247 +1,422 @@
 import 'package:flutter/material.dart';
-import '../widgets/glassmorphic_container.dart';
-import '../widgets/custom_button.dart';
+
+void main() {
+  runApp(const GlaucomaApp());
+}
+
+class GlaucomaApp extends StatelessWidget {
+  const GlaucomaApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Glaucoma Detection App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'Roboto',
+      ),
+      home: const LandingPage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
 
 class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Enhanced gradient background
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF64B5F6), // Light blue
-                  Color(0xFFE3F2FD), // Very light blue
-                  Color(0xFFFFFFFF), // White
-                ],
-                stops: [0.0, 0.5, 1.0],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFFF0F8FF), // Light blue
+              Color(0xFFFFFFFF), // White
+              Color(0xFFF0FFF0), // Light green
+            ],
+          ),
+        ),
+        child: Stack(
+          children: [
+            // Glassmorphism Background Elements
+            _buildBackgroundElements(),
+            // Main Content
+            SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    _buildHeader(),
+                    const SizedBox(height: 32),
+                    _buildMainCard(context),
+                    const SizedBox(height: 20),
+                    _buildFooter(),
+                  ],
+                ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBackgroundElements() {
+    return Stack(
+      children: [
+        Positioned(
+          top: 80,
+          left: 40,
+          child: Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.blue.withOpacity(0.1),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.blue.withOpacity(0.05),
+                  blurRadius: 50,
+                  spreadRadius: 10,
+                ),
+              ],
             ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 40),
-                          
-                          // App Title
-                          Center(
-                            child: Column(
-                              children: [
-                                Text(
-                                  'AI-Powered',
-                                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                                    fontWeight: FontWeight.w300,
-                                    color: const Color(0xFF1565C0),
-                                    fontSize: 32,
-                                  ),
-                                ),
-                                Text(
-                                  'Glaucoma Assistant',
-                                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF0D47A1),
-                                    fontSize: 36,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Container(
-                                  width: 80,
-                                  height: 4,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF42A5F5),
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          
-                          const SizedBox(height: 40),
-                          
-                          // Main Content Card
-                          GlassmorphicContainer(
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Introduction
-                                  Text(
-                                    'Advanced AI Technology for Glaucoma Care',
-                                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF1565C0),
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  
-                                  Text(
-                                    'Our cutting-edge application harnesses the power of Generative AI to revolutionize glaucoma detection and monitoring. Using advanced machine learning algorithms, we provide healthcare professionals with precise Optic Disc segmentation and Visual Field progression analysis from fundus images.',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      height: 1.6,
-                                      color: Colors.grey[700],
-                                    ),
-                                  ),
-                                  
-                                  const SizedBox(height: 32),
-                                  
-                                  // Features Section
-                                  Text(
-                                    'Key Features',
-                                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF1565C0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  
-                                  // Feature List
-                                  _buildFeatureItem(
-                                    Icons.visibility_outlined,
-                                    'Automated Optic Disc Segmentation',
-                                    'Precise AI-driven identification and analysis of optic disc boundaries',
-                                  ),
-                                  _buildFeatureItem(
-                                    Icons.trending_up_outlined,
-                                    'Visual Field Progression Tracking',
-                                    'Advanced algorithms to monitor and predict VF changes over time',
-                                  ),
-                                  _buildFeatureItem(
-                                    Icons.quiz_outlined,
-                                    'Visual Question Answering',
-                                    'Interactive AI assistant for multimodal optic nerve imaging analysis',
-                                  ),
-                                  _buildFeatureItem(
-                                    Icons.security_outlined,
-                                    'Secure & HIPAA Compliant',
-                                    'Enterprise-grade security ensuring patient data protection',
-                                  ),
-                                  _buildFeatureItem(
-                                    Icons.speed_outlined,
-                                    'Real-time Analysis',
-                                    'Instant results with high accuracy for efficient clinical workflow',
-                                  ),
-                                  _buildFeatureItem(
-                                    Icons.smartphone_outlined,
-                                    'Intuitive Mobile Interface',
-                                    'User-friendly design optimized for healthcare professionals',
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Call to Action Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/detection');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1565C0),
-                        foregroundColor: Colors.white,
-                        elevation: 8,
-                        shadowColor: const Color(0xFF1565C0).withOpacity(0.4),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.play_arrow_rounded, size: 24),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Start Glaucoma Detection',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  
-                  const SizedBox(height: 16),
-                ],
-              ),
+        ),
+        Positioned(
+          bottom: 80,
+          right: 40,
+          child: Container(
+            width: 250,
+            height: 250,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.green.withOpacity(0.1),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.green.withOpacity(0.05),
+                  blurRadius: 60,
+                  spreadRadius: 15,
+                ),
+              ],
             ),
+          ),
+        ),
+        Positioned(
+          top: 300,
+          left: 100,
+          child: Container(
+            width: 220,
+            height: 220,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.purple.withOpacity(0.05),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.purple.withOpacity(0.03),
+                  blurRadius: 40,
+                  spreadRadius: 8,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(50),
+            border: Border.all(
+              color: Colors.white.withOpacity(0.3),
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: const Icon(
+            Icons.visibility,
+            size: 32,
+            color: Color(0xFF2563EB), // Blue-600
+          ),
+        ),
+        const SizedBox(height: 16),
+        const Text(
+          'Glaucoma Detection App',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1F2937), // Gray-800
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'AI-powered glaucoma detection and monitoring using advanced fundus image analysis',
+            style: TextStyle(
+              fontSize: 18,
+              color: Color(0xFF4B5563), // Gray-600
+              height: 1.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMainCard(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.3),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 20,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          const Text(
+            'About Glaucoma Detection',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1F2937), // Gray-800
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          _buildContentText(),
+          const SizedBox(height: 32),
+          _buildFeatureCards(),
+          const SizedBox(height: 24),
+          _buildFinalText(),
+          const SizedBox(height: 32),
+          _buildCTAButton(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContentText() {
+    return const Column(
+      children: [
+        Text(
+          'Glaucoma is a chronic, progressive eye disease that leads to optic nerve damage, usually associated with increased intraocular pressure (IOP). It is one of the leading causes of irreversible blindness globally.',
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xFF374151), // Gray-700
+            height: 1.6,
+          ),
+          textAlign: TextAlign.justify,
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Optic disc (OD) segmentation and visual field (VF) progression prediction using fundus images is a critical task in glaucoma detection and monitoring. This application integrates GenAI models for these two tasks along with a VQA model for different imaging modalities of the optic nerve.',
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xFF374151), // Gray-700
+            height: 1.6,
+          ),
+          textAlign: TextAlign.justify,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeatureCards() {
+    return Column(
+      children: [
+        _buildFeatureCard(
+          icon: Icons.flash_on,
+          iconColor: const Color(0xFF2563EB), // Blue-600
+          title: 'AI-Powered',
+          description: 'Advanced GenAI models for accurate detection',
+        ),
+        const SizedBox(height: 16),
+        _buildFeatureCard(
+          icon: Icons.visibility,
+          iconColor: const Color(0xFF16A34A), // Green-600
+          title: 'Optic Disc Analysis',
+          description: 'Precise segmentation and monitoring',
+        ),
+        const SizedBox(height: 16),
+        _buildFeatureCard(
+          icon: Icons.camera_alt,
+          iconColor: const Color(0xFF9333EA), // Purple-600
+          title: 'Fundus Imaging',
+          description: 'Multiple imaging modality support',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeatureCard({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String description,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 32,
+            color: iconColor,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF1F2937), // Gray-800
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            description,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color(0xFF4B5563), // Gray-600
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
-  
-  Widget _buildFeatureItem(IconData icon, String title, String description) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: const Color(0xFF42A5F5).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF1565C0),
-              size: 24,
-            ),
+
+  Widget _buildFinalText() {
+    return const Text(
+      'Early detection and continuous monitoring are crucial for preventing vision loss. Our AI-powered approach provides healthcare professionals with advanced tools for accurate glaucoma assessment and patient care.',
+      style: TextStyle(
+        fontSize: 16,
+        color: Color(0xFF374151), // Gray-700
+        height: 1.6,
+      ),
+      textAlign: TextAlign.justify,
+    );
+  }
+
+  Widget _buildCTAButton(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF2563EB), // Blue-600
+            Color(0xFF16A34A), // Green-600
+          ],
+        ),
+        borderRadius: BorderRadius.circular(50),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 15,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(50),
+          // onTap: () {
+          //   // Navigate to detection page
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => const DetectionPage(),
+          //     ),
+          //   );
+          // },
+          onTap: () {
+            Navigator.pushNamed(context, '/detection');
+          },
+
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  title,
-                  style: const TextStyle(
+                  'Go to Glaucoma Detection',
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF1565C0),
+                    color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    height: 1.4,
-                    color: Colors.grey[600],
-                  ),
+                SizedBox(width: 8),
+                Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                  size: 20,
                 ),
               ],
             ),
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFooter() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        'This application is designed for educational and research purposes. Always consult with healthcare professionals for medical advice.',
+        style: TextStyle(
+          fontSize: 12,
+          color: Color(0xFF4B5563), // Gray-600
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }
