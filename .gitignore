@@ -200,15 +200,19 @@ dist
 # yarn v3
 .pnp.*
 .yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+.yarn/patches
+.yarn/plugins
+.yarn/releases
+.yarn/sdks
+.yarn/versions
 
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
->>>>>>> e4821cccdfdddb0bd417cca2f33afc1768bb730d
+e4821cccdfdddb0bd417cca2f33afc1768bb730d
 # Ignore PyTorch model files
 *.pth
+HEAD
+# Ignore PyTorch model file
+model/vit_fundus1.pth
+6494f83 (frontend modification and vit model)
