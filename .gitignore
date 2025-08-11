@@ -210,3 +210,5 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 >>>>>>> e4821cccdfdddb0bd417cca2f33afc1768bb730d
+# Ignore PyTorch model files
+*.pth
