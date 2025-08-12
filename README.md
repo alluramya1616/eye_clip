@@ -22,7 +22,7 @@ cd eye_clip
 
 ## **Backend (Flask + PyTorch) Setup**
 
-### **2. Create a Python Virtual Environment**
+### **2. Create a Python Virtual Environment(do it in project route folder)**
 ```bash
 python -m venv venv
 ```
@@ -42,11 +42,15 @@ Activate it:
 ```bash
 pip install -r requirements.txt
 ```
+### if any problem with installing pip install -r requirements.txt, do this :
+```bash
+pip install torch torchvision pillow requests flask
+```
 > Make sure `torch`, `torchvision`, and `flask` are in `requirements.txt`.
 
 ---
 
-### **4. Start Flask Backend**
+### **4. Start Flask Backend(cd models then )**
 ```bash
 python app.py
 ```
@@ -62,7 +66,7 @@ http://0.0.0.0:5000/predict
 ### **5. Install Flutter Dependencies**
 In a new terminal:
 ```bash
-cd flutter_app_directory   # go into your Flutter folder
+cd flutter_app_directory (eye_clip) # go into your Flutter folder
 flutter pub get
 ```
 
@@ -75,8 +79,8 @@ flutter pub get
     Uri.parse('http://10.0.2.2:5000/predict')
     ```
 - If using **physical device**:
-  - Replace `10.0.2.2` with your PC's IP (e.g., `192.168.1.5`) in `detection_page.dart`
-  - Both PC and phone must be on same Wi-Fi.
+  - Replace `10.0.2.2` with your PC's IP (e.g., `192.168.1.5`(this ipv4 address appier in cmd when you run `ipconfig` copy that )) in `root/frontend/lib/pages/detection_page.dart`
+  - Both PC and phone must be on **same Wi-Fi**.
 
 ---
 
